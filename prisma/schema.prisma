@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type CityCoord {
+  lat Float
+  lon Float
+}
+
+model city {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  coord     CityCoord
+  country   String
+  apiCityId Int       @map("id")
+  name      String
+  state     String
+}
