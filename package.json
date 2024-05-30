@@ -1,0 +1,36 @@
+{
+	"name": "next-weather",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@prisma/client": "^5.14.0",
+		"axios": "^1.6.7",
+		"clsx": "^2.1.0",
+		"date-fns": "^2.30.0",
+		"next": "^14.2.3",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"react-icons": "^5.0.1",
+		"react-toastify": "^10.0.5",
+		"tailwind-merge": "^2.2.1"
+	},
+	"devDependencies": {
+		"@ducanh2912/next-pwa": "^10.2.7",
+		"@types/node": "^20",
+		"@types/react": "^18.2.46",
+		"@types/react-dom": "^18.2.18",
+		"autoprefixer": "^10.0.1",
+		"eslint": "^8",
+		"eslint-config-next": "14.1.2",
+		"postcss": "^8",
+		"prisma": "^5.14.0",
+		"tailwindcss": "^3.3.0",
+		"typescript": "^5"
+	}
+}
