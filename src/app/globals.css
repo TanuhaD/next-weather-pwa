@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Селектор для всей полосы прокрутки */
+::-webkit-scrollbar {
+	width: 7px; /* Ширина вертикальной полосы прокрутки */
+	height: 7px;
+}
+
+/* Селектор для ползунка полосы прокрутки */
+::-webkit-scrollbar-thumb {
+	background-color: rgb(253 224 71 / 0.8); /* Цвет ползунка */
+	border-radius: 10px; /* Закругленные углы ползунка */
+	border: 2px solid #d6d6d6; /* Граница ползунка */
+}
+
+/* Селектор для трека полосы прокрутки */
+::-webkit-scrollbar-track {
+	background: #f1f1f1; /* Цвет фона трека */
+	border-radius: 10px; /* Закругленные углы трека */
+	border: 1px solid #ccc; /* Граница трека */
+}
+
+/* Селектор для ползунка при наведении */
+::-webkit-scrollbar-thumb:hover {
+	background: #555; /* Изменение цвета ползунка при наведении */
+}
