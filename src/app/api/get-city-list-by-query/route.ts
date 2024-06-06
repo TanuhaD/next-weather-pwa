@@ -25,6 +25,7 @@ export async function GET(request: Request) {
 	}
 	let cities;
 	try {
+		console.log("Querying database...");
 		cities = await prisma.city.findMany({
 			where: {
 				name: {
@@ -34,6 +35,7 @@ export async function GET(request: Request) {
 			},
 		});
 	} catch (error) {
+		console.error("Database request error:", error);
 		response = { cities: null, error: "DB request error" };
 	}
 	if (!cities) {
