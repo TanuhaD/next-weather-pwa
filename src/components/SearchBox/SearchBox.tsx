@@ -58,7 +58,12 @@ const SearchBox: FC<SearchBoxProps> = ({
 	async function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
 		setQuery(e.target.value);
 		debouncedFetchCityList(e.target.value);
-		setShowSuggestions(true);
+		if (e.target.value.length < 2) {
+			setShowSuggestions(false);
+			setCitiesListServerResponse([]);
+		} else {
+			setShowSuggestions(true);
+		}
 	}
 
 	return (
