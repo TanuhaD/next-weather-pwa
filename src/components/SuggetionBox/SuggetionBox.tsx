@@ -1,6 +1,6 @@
 import { City } from "@/types/weatherAPI";
 import { useRouter } from "next/navigation";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import css from "./SuggestionBox.module.css";
 
 interface SuggetionBoxProps {
@@ -21,8 +21,23 @@ const SuggetionBox: FC<SuggetionBoxProps> = ({
 		a.name.localeCompare(b.name)
 	);
 
+	useEffect(() => {
+		const handleClickOutside = (e: MouseEvent) => {
+			const target = e.target as HTMLElement;
+			const isClickInside = target?.closest("#suggestion-box");
+			if (!isClickInside) {
+				setShowSuggestions(false);
+			}
+		};
+		document.addEventListener("click", handleClickOutside);
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, [setShowSuggestions]);
+
 	return (
 		<ul
+			id="suggestion-box"
 			className={`h-[400px] overflow-y-auto mb-4 bg-white absolute border top-[44px] left-0 border-gray-300 rounded-md min-w-[200px]  flex flex-col gap-1 py-2 px-2 ${css.heightControl}`}>
 			{sortAtSitiesListServerResponse.length < 1 && (
 				<li className="text-red-500 p-1 "> Error</li>
