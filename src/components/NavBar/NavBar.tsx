@@ -37,7 +37,16 @@ const NavBar = ({ city }: NavBarProps) => {
 			});
 			localStorage.setItem("isVisited", "true");
 		}
-	}, []);
+		const lastLocation = localStorage.getItem("lastLocation");
+		if (lastLocation) {
+			const { city, state } = JSON.parse(lastLocation);
+			if (state) {
+				router.push(`/?city=${state}`);
+			} else if (city) {
+				router.push(`/?city=${city}`);
+			}
+		}
+	}, [router]);
 	const [showSuggestions, setShowSuggestions] = useState(true);
 	const handleGetCoordsClick = async () => {
 		const coords = await getCoords();
@@ -49,10 +58,19 @@ const NavBar = ({ city }: NavBarProps) => {
 			`/api/get-city-with-coords?lat=${coords.lat}&lon=${coords.lon}`
 		);
 		const data: GetCityWithCoordsResponse = await res.json();
-		if (data?.[0]?.state) {
-			router.push(`/?city=${data[0].state}`);
-		} else if (data?.[0]?.name) {
-			router.push(`/?city=${data[0].name}`);
+		if (data?.[0]) {
+			const locationData = {
+				lat: coords.lat,
+				lon: coords.lon,
+				city: data[0].name,
+				state: data[0].state,
+			};
+			localStorage.setItem("lastLocation", JSON.stringify(locationData));
+			if (data[0].state) {
+				router.push(`/?city=${data[0].state}`);
+			} else if (data[0].name) {
+				router.push(`/?city=${data[0].name}`);
+			}
 		}
 	};
 
