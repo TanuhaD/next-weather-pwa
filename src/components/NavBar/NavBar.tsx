@@ -70,9 +70,9 @@ const NavBar = ({ city }: NavBarProps) => {
 				</div>
 				<section className="flex gap-2 items-center">
 					<button
-						className="px-4 py-2 rounded-md focus:outline-none hover:bg-blue-600"
+						className="px-4 py-2 rounded-md focus:outline-none hover:bg-transparent"
 						onClick={handleGetCoordsClick}>
-						<MdMyLocation className="text-2xl text-gray-400 cursor-pointer hover:opacity-80" />
+						<MdMyLocation className="text-2xl text-gray-400 cursor-pointer hover:text-blue-500" />
 					</button>
 
 					<MdOutlineLocationOn className="text-3xl" />
