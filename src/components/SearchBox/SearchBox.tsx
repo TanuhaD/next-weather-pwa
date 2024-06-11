@@ -16,7 +16,7 @@ interface SearchBoxProps {
 
 function SubmitButton() {
 	return (
-		<button className="px-4 py-[9px] bg-blue-500 text-white rounded-r-md focus:outline-none hover:bg-blue-500  h-full">
+		<button className="px-4 py-[9px] bg-blue-500 text-white rounded-r-md focus:outline-none hover:bg-blue-800 h-full">
 			<IoSearch />
 		</button>
 	);
