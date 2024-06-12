@@ -1,3 +1,4 @@
+import CityNotFound from "@/components/CityNotFound/CityNotFound";
 import Container from "@/components/Container/Container";
 import ForecastWeatherDetail from "@/components/ForecastWeatherDetail/ForecastWeatherDetail";
 import NavBar from "@/components/NavBar/NavBar";
@@ -7,17 +8,31 @@ import DayAndDate from "@/components/ui/DayAndDate";
 import DayForecast from "@/components/ui/DayForecast";
 import TemperatureForDay from "@/components/ui/TemperatureForDay";
 import { createListOfDatesOnePerDay } from "@/utils/createListOfDatesOnePerDay";
-import { fetchForecastByCityOrId } from "@/utils/fetchForecastByCityOrId";
+import { fetchForecastByCity } from "@/utils/fetchForecastByCity";
+import { fetchForecastById } from "@/utils/fetchForecastById";
 import { getDataForFirstDay } from "@utils/getDataForFirstDay";
 import { getDayOrNightIcon } from "@utils/getDayOrNightIcon";
+import { cookies } from "next/headers";
 
 export default async function Page(params: any) {
-	const city = params.searchParams.city || "Kyiv";
-	const apiCityId = params.searchParams.apiCityId;
+	const cookiesCity = cookies().get("city");
+	const paramsCity = params.searchParams.city;
+	const city = paramsCity || cookiesCity?.value;
 
-	const data = await fetchForecastByCityOrId({ city, apiCityId });
-
-	// if (error) return <FetchError error={error} />;
+	let data;
+	if (city) {
+		data = await fetchForecastByCity({ city });
+	} else {
+		const paramsApiCityId = params.searchParams.apiCityId;
+		const cookiesApiCityId = cookies().get("apiCityId");
+		const apiCityId = paramsApiCityId || cookiesApiCityId?.value;
+		if (apiCityId) {
+			data = await fetchForecastById({ apiCityId });
+		}
+	}
+	if (!data) {
+		data = await fetchForecastByCity({ city: "Sofia" });
+	}
 	const firstData =
 		data && data.cod === "200" ? getDataForFirstDay(data) : null;
 
@@ -26,11 +41,7 @@ export default async function Page(params: any) {
 	return (
 		<div className="flex flex-col gap-4 bg-gray-100 min-h-screen ">
 			<NavBar city={data?.city?.name} />
-			{(!data || data.cod !== "200") && (
-				<div>
-					<p>City &#34;{city}&#34; not found</p>
-				</div>
-			)}
+			{(!data || data.cod !== "200") && <CityNotFound city={city} />}
 			{data && data.cod === "200" && (
 				<main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4">
 					<section className="space-y-4">

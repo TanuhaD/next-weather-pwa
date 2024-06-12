@@ -2,6 +2,7 @@ import { City } from "@/types/weatherAPI";
 import { useRouter } from "next/navigation";
 import { FC, useEffect } from "react";
 import css from "./SuggestionBox.module.css";
+import { deleteCookie, setCookie } from "@/utils/cookies";
 
 interface SuggetionBoxProps {
 	citiesListServerResponse: City[];
@@ -50,6 +51,12 @@ const SuggetionBox: FC<SuggetionBoxProps> = ({
 						onClick={() => {
 							setQuery(name);
 							setShowSuggestions(false);
+							deleteCookie({ name: "city" });
+							setCookie({
+								name: "apiCityId",
+								value: apiCityId.toString(),
+								days: 7,
+							});
 							router.push(`/?apiCityId=${apiCityId}`);
 						}}
 						className="cursor-pointer p-1 rounded   hover:bg-gray-200">

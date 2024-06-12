@@ -9,6 +9,7 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import SuggetionBox from "../../components/SuggetionBox/SuggetionBox";
 import SearchBox from "../SearchBox/SearchBox";
 import "react-toastify/dist/ReactToastify.css";
+import { deleteCookie, setCookie } from "@/utils/cookies";
 
 interface NavBarProps {
 	city?: string;
@@ -50,16 +51,21 @@ const NavBar = ({ city }: NavBarProps) => {
 		);
 		const data: GetCityWithCoordsResponse = await res.json();
 		if (data?.[0]?.state) {
+			deleteCookie({ name: "apiCityId" });
+			setCookie({ name: "city", value: data[0].state, days: 7 });
 			router.push(`/?city=${data[0].state}`);
 		} else if (data?.[0]?.name) {
+			deleteCookie({ name: "apiCityId" });
+			setCookie({ name: "city", value: data[0].name, days: 7 });
 			router.push(`/?city=${data[0].name}`);
 		}
 	};
 
 	const handleSearchRequest = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		deleteCookie({ name: "apiCityId" });
+		setCookie({ name: "city", value: query, days: 7 });
 
-		// const res = fetch(`/api/get-forecast?query=${query}`);
 		router.push(`/?city=${query}`);
 		setQuery("");
 		setShowSuggestions(false);
